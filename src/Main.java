@@ -1,17 +1,40 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.util.InputMismatchException;
+import java.util.Optional;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+            int planId=0;
+            GetPlan planGenerator = new GetPlan();
+            System.out.println("Please choose a plan number or anything else to exit:");
+            System.out.println("1-Commercial Plan");
+            System.out.println("2-Institutional Plan");
+            Scanner scanner = new Scanner(System.in);
+             try{
+                planId =  scanner.nextInt();
+            }catch (InputMismatchException e){
+                System.out.println("Bye");
+                return;
+            }
+            Plan plan = planGenerator.makePlan(planId);
+            Optional <Plan> checker = Optional.ofNullable(plan);
+            if(checker.isPresent()){
+                System.out.println("Please enter the amount of months to subscribe:");
+                int months = 0;
+                boolean invalid;
+                    try{
+                        invalid = false;
+                        months = scanner.nextInt();
+                    }catch (InputMismatchException e){
+                        System.out.println("Invalid Input, integers only");
+                        return;
+                    }
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+                plan.getRate();
+                plan.calculateBill(months);
+            }else{
+                System.out.println("Bye");
+            }
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+8.
-            System.out.println("i = " + i);
-        }
     }
 }
